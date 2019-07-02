@@ -1,0 +1,178 @@
+[
+  {
+    "text": "Which language can you speak",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language can you speak ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language can you understand",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language can you understand ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language do you speak",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language do you speak ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language do you understand",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "Which language do you understand ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 6,
+        "endCharIndex": 14
+      }
+    ]
+  },
+  {
+    "text": "What language can you speak",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language can you speak ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language can you understand",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language can you understand ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language do you speak",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language do you speak ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language do you understand",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  },
+  {
+    "text": "What language do you understand ?",
+    "intentName": "BotLanguage",
+    "entityLabels": [
+      {
+        "entityName": "botLang",
+        "startCharIndex": 5,
+        "endCharIndex": 13
+      }
+    ]
+  }
+]

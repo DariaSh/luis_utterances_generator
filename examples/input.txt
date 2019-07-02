@@ -1,0 +1,1 @@
+BotLanguage:{Which|What}{language:botLang}{can you|do you}{speak|understand}{|?}
