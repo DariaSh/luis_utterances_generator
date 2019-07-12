@@ -1,69 +1,87 @@
 import json
-import argparse
 import itertools
 
-def get_item_list(utterance_item):
-    return utterance_item.split('|')
 
-def build_intent_utterances(intent, utterances, entities):
-    intent_utterances = []
-    for utterance in utterances:
-        ut_dict = {}
-        ut_text = ' '.join(word for word in utterance)
-        ut_text = str.strip(ut_text)
-        ut_text = str.replace(ut_text, '  ', ' ')
-        ut_dict["text"] = ut_text
-        ut_dict["intentName"] = intent
-        ut_dict["entityLabels"] = []
-        for ent in entities.keys():
-            ent_words = entities[ent]
-            for ent_word in ent_words:
-                if ent_word in ut_text:
-                    start_i = str.find(ut_text, ent_word)
-                    end_i = start_i + len(ent_word)
-                    ut_dict["entityLabels"].append({
-                        "entityName": ent,
-                        "startCharIndex": start_i,
-                        "endCharIndex": end_i})
-        intent_utterances.append(ut_dict)
-    return intent_utterances
+class UtterancesGenerator:
 
+    def __init__(self, test=False):
+        self.test = test
 
-def process_input(intent_input):
-    intent = str.strip(intent_input.split(':')[0])
-    utterance_items = intent_input.split('{')[1:]
-    utterance_set = []
-    entities_set = {}
-    for item in utterance_items:
-        item = str.replace(item, '}', '')
-        if ':' not in item:
-            utterance_set.append(get_item_list(item))
-        else:
-            ent = item.split(':')
-            ent_key = str.strip(ent[1])
-            entities_set[ent_key] = []
-            ent_words = get_item_list(ent[0])
-            entities_set[ent_key] += ent_words
-            utterance_set.append(ent_words)
-    comb = list(itertools.product(*utterance_set))
-    return build_intent_utterances(intent, comb, entities_set)
+        self.json_keys = {"text_key":"text",
+                          "intent_key":"intentName",
+                          "entities_key": "entityLabels",
+                          "entity_key" : "entityName",
+                          "start_key" : "startCharIndex",
+                          "end_key" : "endCharIndex"}
+        if self.test:
+            self.json_keys = {"text_key": "text",
+                              "intent_key": "intent",
+                              "entities_key": "entities",
+                              "entity_key": "entity",
+                              "start_key": "startPos",
+                              "end_key": "endPos"}
+            self.max_test_size = 1000
 
+    def get_item_list(self, utterance_item):
+        return utterance_item.split('|')
 
-def generate_utterances(input_file, output_file, n_utterances=100):
-    i_u_collection = []
-    with open(input_file) as fin:
-        iu_lines = fin.readlines()
-        for line in iu_lines:
-            if len(line) > 0:
-                i_u_collection.append(process_input(line))
-    result = [val for sublist in i_u_collection for val in sublist]
-    with open(output_file, 'w') as fout:
-        json.dump(result[:n_utterances], fout)
+    def build_intent_utterances(self, intent, utterances, entities):
+        for utterance in utterances:
+            ut_dict = {}
+            ut_text = ' '.join(word for word in utterance)
+            ut_text = str.strip(ut_text)
+            ut_text = str.replace(ut_text, '  ', ' ')
+            ut_dict[self.json_keys["text_key"]] = ut_text
+            ut_dict[self.json_keys["intent_key"]] = intent
+            ut_dict[self.json_keys["entities_key"]] = []
+            for ent in entities.keys():
+                ent_words = entities[ent]
+                for ent_word in ent_words:
+                    if ent_word in ut_text:
+                        start_i = str.find(ut_text, ent_word)
+                        end_i = start_i + len(ent_word)
+                        ut_dict[self.json_keys["entities_key"]].append({
+                            self.json_keys["entity_key"]: ent,
+                            self.json_keys["start_key"]: start_i,
+                            self.json_keys["end_key"]: end_i})
+            yield ut_dict
 
+    def process_input(self, intent_input):
+        intent = str.strip(intent_input.split(':')[0])
+        utterance_items = intent_input.split('{')[1:]
+        utterance_set = []
+        entities_set = {}
+        for i, item in enumerate(utterance_items):
+            item = str.replace(item, '}', '')
+            if ':' not in item:
+                utterance_set.append(self.get_item_list(item))
+            else:
+                ent = item.split(':')
+                ent_key = str.strip(ent[1])
+                entities_set[ent_key] = []
+                ent_words = self.get_item_list(ent[0])
+                entities_set[ent_key] += ent_words
+                utterance_set.append(ent_words)
+            print("processed " + str(i) + " utterance items")
+        comb = itertools.product(*utterance_set)
+        return self.build_intent_utterances(intent, comb, entities_set)
 
-if __name__ == '__main__':
-     parser = argparse.ArgumentParser()
-     parser.add_argument('--input', help='input file', required=True)
-     parser.add_argument('--output', help='output json file', required=True)
-     args = parser.parse_args()
-     generate_utterances(args.input, args.output)
+    def generate_utterances(self, input_file):
+        print ("Processing your input...")
+        with open(input_file) as fin:
+            for line in fin.readlines():
+                yield from self.process_input(line)
+
+    def write_utterances_json(self, input_file, output_file):
+        with open(output_file, 'a') as fout:
+            fout.write('[')
+            for i, x in enumerate(self.generate_utterances(input_file)):
+                if i !=0:
+                    fout.write(', ')
+                if i % 100 == 0:
+                    print ("writing item " + str(i))
+                if self.test and i == self.max_test_size:
+                    break
+                fout.write(json.dumps(x))
+            fout.write(']')
+        print ("Processing completed! Check your json.")
